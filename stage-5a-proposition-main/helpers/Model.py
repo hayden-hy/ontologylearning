@@ -187,17 +187,17 @@ class Model():
         distances, indices = nbrs.kneighbors(X)
         
         sort_neigh_dist = np.sort(distances, axis = 0)
-        print(sort_neigh_dist.shape)
+        # print(sort_neigh_dist.shape)
         k_dist = sort_neigh_dist[:, n_neighbors]
-        print(k_dist.shape)
+        # print(k_dist.shape)
         kneedle = KneeLocator(x = range(1, len(distances)+1), y = k_dist, S = 1.0, 
                         curve = "concave", direction = "increasing", online=True)
         
         self.epsilon = kneedle.knee_y
-        print(kneedle.knee)
-        print(kneedle.elbow)
-        kneedle.plot_knee()
-        plt.show()
+        # print(kneedle.knee)
+        # print(kneedle.elbow)
+        # kneedle.plot_knee()
+        # plt.show()
         return self
 
 
@@ -437,17 +437,17 @@ class Model():
         sns.heatmap(conf_matrix, xticklabels=axis_labels, yticklabels=axis_labels).set(title='Confusion matrix ' + "(recall)" if normalize == "true" else "(precision)")
         plt.show()
 
-        accuracy = accuracy_score(y_true_list, y_pred_list)
+        self.accuracy = accuracy_score(y_true_list, y_pred_list)
         average = "weighted"
         # average = "macro"
-        precision = precision_score(y_true_list, y_pred_list, average=average)
-        recall = recall_score(y_true_list, y_pred_list, average=average)
-        f1 = f1_score(y_true_list, y_pred_list, average=average)
+        self.precision = precision_score(y_true_list, y_pred_list, average=average)
+        self.recall = recall_score(y_true_list, y_pred_list, average=average)
+        self.f1 = f1_score(y_true_list, y_pred_list, average=average)
 
-        print("Accuracy : " + str(accuracy))
-        print("Precision : " + str(precision))
-        print("Recall : " + str(recall))
-        print("f1 : " + str(f1))
+        print("Accuracy : " + str(self.accuracy))
+        print("Precision : " + str(self.precision))
+        print("Recall : " + str(self.recall))
+        print("f1 : " + str(self.f1))
 
 
         y_pred_terms = [self.corpus.vocabulary.core_concepts[cc_index] for cc_index in y_pred_list]
